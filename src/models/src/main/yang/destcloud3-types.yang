@@ -1,0 +1,103 @@
+module destcloud3-types {
+	yang-version 1;
+    	namespace "urn:opendaylight:params:xml:ns:yang:destcloud3-types";
+	prefix "dc3-types"; 
+
+	import ietf-inet-types { prefix inet; }
+
+    	revision "2015-12-28" {
+        	description "Initial revision of destcloud3 model";
+    	}
+
+	grouping direction-ref {
+		leaf direction {
+			type enumeration {
+				enum inbound {
+					description "apply to inbound traffic";
+				}
+				enum outbound {
+					description "apply to outbound traffic";
+				}
+				enum both {
+					description "apply to inbound/outbound traffic";
+				}	
+			}
+		}
+	}
+
+	grouping interface-info {
+		leaf description {
+			description "Description of the interface";
+			type string;
+		}
+		leaf mac-address {
+			description "MAC-address";
+		type string;
+		}
+		leaf physical {
+			description "whether the I/F is physical or not";
+			type boolean;
+		}
+		leaf-list ipv4-addresses {
+			type inet:ipv4-prefix;
+		}
+		leaf-list ipv6-addresses {
+			type inet:ipv6-prefix;
+		}
+		leaf admin-status {
+			description "Administrative status";
+			type boolean;
+		}
+		leaf oper-status {
+			description "Operational status";
+			type boolean;
+		}
+		leaf vlan-id {
+			description "IEEE 802.1q VLAN-ID";
+			type uint16;
+		}
+		leaf parent-device {
+			description "Parent interface name";
+			type string;
+		}
+	}
+
+	grouping fault-action {
+		leaf interface {
+			type string;
+		}
+		
+		container action {
+			leaf port-down {
+				type empty;
+			}
+			leaf all-lose {
+				type empty;
+			}
+			leaf packet-loss {
+				type uint8 {
+					range "1..99";
+				}
+			}
+			container route-change {
+				leaf prefix {
+					type inet:ipv4-prefix;
+				}
+				leaf nexthop {
+					type inet:ipv4-address;
+				}
+			}
+			leaf shaping {
+				type uint32;
+			}
+			leaf delay {
+				type uint16;
+			}
+			uses direction-ref;
+		}
+		leaf aclname {
+			type string;
+		}
+	}
+
+}

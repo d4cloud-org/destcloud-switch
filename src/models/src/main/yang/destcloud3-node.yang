@@ -1,0 +1,72 @@
+module destcloud3-node {
+
+	yang-version 1;
+    	namespace "urn:opendaylight:params:xml:ns:yang:destcloud3-node";
+	prefix "dc3-node"; 
+
+	import ietf-inet-types { prefix inet; }
+	import destcloud3-types { prefix "dc3-types"; }
+
+    	revision "2015-12-28" {
+        	description "Initial revision of destcloud3 model";
+    	}
+	
+
+	container router-info {
+		leaf name {
+			description "Name of the router";
+			type string;
+		}
+		leaf ipaddress {
+			type inet:ipv4-address;
+		}
+		leaf router-type {
+			type enumeration {
+				enum "juniper";
+				enum "vyos";
+			}
+		}
+		leaf management-protocol {
+			description "TELNET or SSH";
+			type string;
+		}
+		leaf username {
+			type string;
+		}
+		leaf password {
+			type string;
+		}
+	}
+
+
+	container interfaces {
+		list interface {
+			key "name";
+			leaf name {
+				description "Name of the interface";
+				type string;
+			}
+			uses dc3-types:interface-info;
+		}
+	}
+
+	container fault-actions {
+		list actions {
+			key "uuid";
+			leaf uuid {
+				type string;
+			}
+			leaf date {
+				type string;
+			}
+			leaf timestamp {
+				type uint64;
+			}
+			leaf recovered {
+				type boolean;
+				default false;
+			}
+			uses dc3-types:fault-action;
+		}
+	}
+}

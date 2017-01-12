@@ -1,0 +1,97 @@
+module destcloud3 {
+    	yang-version 1;
+    	namespace "urn:opendaylight:params:xml:ns:yang:destcloud3";
+	prefix "dc3"; 
+
+	import ietf-inet-types { prefix inet; }
+	import destcloud3-types { prefix "dc3-types"; }
+
+    	revision "2015-12-28" {
+        	description "Initial revision of destcloud3 model";
+    	}
+
+        rpc get-interface {
+                input {
+                }
+                output {
+                        list interface {
+                                key "name";
+                                leaf name {
+                                        type string;
+                                }
+                                uses dc3-types:interface-info;
+                        }
+                }
+        }
+
+	rpc fault-action {
+		input {
+			uses dc3-types:fault-action;
+		}
+		output {
+			leaf result {
+				type boolean;
+			}
+			leaf message {
+				type string;
+			}
+			leaf uuid {
+				type string;
+			}
+		}
+	}
+
+	rpc recovery {
+		input {
+			leaf uuid {
+				type string;
+			}
+		}
+		output {
+			leaf result {
+				type boolean;
+			}
+			leaf message {
+				type string;
+			}
+		}
+	}
+	
+	rpc set-interface-state {
+		input {
+			leaf interface {
+				type string;
+			}
+			leaf state {
+				type enumeration {
+					enum "up";
+					enum "down";
+				}
+			}
+		}
+		output {
+			leaf result {
+				type boolean;
+			}
+			leaf message {
+				type string;
+			}
+		}
+	}
+	
+	rpc reload {
+		input {
+		}
+		output {
+			leaf result {
+				type boolean;
+			}
+			leaf message {
+				type string;
+			}
+			leaf-list uuid {
+				type string;
+			}
+		}
+	}
+}
